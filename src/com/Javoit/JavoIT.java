@@ -1,20 +1,19 @@
 package com.Javoit;
 
-import java.awt.Canvas;
-
-import javax.swing.JFrame;
-
 public class JavoIT {
-	//Used for key binding with HotKeySet
-	Canvas canvas;
-	JFrame frame;
+	private MouseClick mouseClick;
 
 	public static void main(String[] args) {
 		JavoIT javoit = new JavoIT();
+		javoit.HotKeySet("0", "derp", javoit);
 	}
 	
 	public JavoIT(){
 		
+	}
+	
+	public void derp(){
+		MouseClick("LEFT", 1000, 1000);
 	}
 	
 	/**
@@ -29,4 +28,11 @@ public class JavoIT {
 		@SuppressWarnings("unused")
 		HotKeySet hks = new HotKeySet(hotKeys, methodName, callingObject);
 	}
+	
+	public void MouseClick(String button, int x, int y){
+		if(mouseClick == null) mouseClick = new MouseClick();
+		mouseClick.click(button, x, y, 10);
+	}
+	
+	
 }
