@@ -2,10 +2,15 @@ package com.Javoit;
 
 public class JavoIT {
 	private MouseClick mouseClick;
+	private HotKeySet hotKeySet;
 
 	public static void main(String[] args) {
 		JavoIT javoit = new JavoIT();
-		javoit.HotKeySet("0", "derp", javoit);
+		//javoit.HotKeySet("!a", "derp", javoit);
+		javoit.sleep(1000);
+		javoit.MouseClick("LeFT", 500, 500);
+		javoit.sleep(1000);
+		javoit.MouseClick("left", 900, 500);
 	}
 	
 	public JavoIT(){
@@ -25,13 +30,23 @@ public class JavoIT {
 	}
 	
 	public void HotKeySet(String hotKeys, String methodName, Object callingObject){
-		@SuppressWarnings("unused")
-		HotKeySet hks = new HotKeySet(hotKeys, methodName, callingObject);
+		if(hotKeySet == null){
+			hotKeySet = new HotKeySet(hotKeys, methodName, callingObject);
+		} else if (hotKeySet.getHotKeys() == hotKeys){
+			hotKeySet.setMethodName(methodName);
+			hotKeySet.setCallingObject(callingObject);
+		}
+		hotKeySet.startListening();
 	}
 	
 	public void MouseClick(String button, int x, int y){
 		if(mouseClick == null) mouseClick = new MouseClick();
-		mouseClick.click(button, x, y, 10);
+		mouseClick.click(button, x, y);
+	}
+	
+	public void MouseClick(String button, int x, int y, int clicks){
+		if(mouseClick == null) mouseClick = new MouseClick();
+		mouseClick.click(button, x, y, clicks);
 	}
 	
 	

@@ -16,16 +16,16 @@ class MouseClick {
 	}
 
 	void click(String button) {
-		if (button.toUpperCase() == "LEFT" || button == "") {
+		if (button.toUpperCase().matches("LEFT") || button == "") {
 			robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
 			robot.delay(10);
 			robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-		} else if (button.toUpperCase() == "MIDDLE") {
+		} else if (button.toUpperCase().matches("MIDDLE")) {
 			robot.mousePress(InputEvent.BUTTON2_DOWN_MASK);
 			robot.delay(10);
 			robot.mouseRelease(InputEvent.BUTTON2_DOWN_MASK);
 			
-		} else if (button.toUpperCase() == "RIGHT") {
+		} else if (button.toUpperCase().matches("RIGHT")) {
 			robot.mousePress(InputEvent.BUTTON3_DOWN_MASK);
 			robot.delay(10);
 			robot.mouseRelease(InputEvent.BUTTON3_DOWN_MASK);

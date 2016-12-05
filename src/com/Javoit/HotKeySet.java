@@ -1,6 +1,7 @@
 package com.Javoit;
 
-import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.lang.reflect.InvocationTargetException;
@@ -22,6 +23,7 @@ class HotKeySet implements NativeKeyListener {
 	private String methodName;
 	private KeyTextToUniqueID keyTextToID; //To create unique IDs for keystrokes
 	private Object callingObject;
+	private String hotKeys;
 	
 	/**
 	 * 
@@ -30,27 +32,60 @@ class HotKeySet implements NativeKeyListener {
 	 * @param callingObject The object where the method lies
 	 */
 	HotKeySet(String hotKeys, String methodName, Object callingObject) {
-		if(hotKeys == null || methodName == null || callingObject == null){
+		if(hotKeys == null){
 			throw new NullPointerException();
 		}
+		this.hotKeys = hotKeys;
 		this.callingObject = callingObject;
 		keyTextToID = new KeyTextToUniqueID();
-		this.hotKeyIDs = new int[hotKeys.length()];
-		for (int i = 0; i < hotKeys.length(); i++) {
-			hotKeyIDs[i] = keyTextToID.getUniqueID(Character.toString(hotKeys.charAt(i)));
-		}
-		this.isPressed = new boolean[hotKeys.length()];
+		parseHotkeyString(hotKeys);
 		this.methodName = methodName;
-		Arrays.fill(isPressed, false);
-		startListening();
 	}
 
-	private void startListening() {
+	private void parseHotkeyString(String hotKeys) {
+		Scanner stringScanner = new Scanner(hotKeys);
+		stringScanner.useDelimiter("");
+		String currentCharInString;
+		LinkedList<Integer> hotKeyIDList = new LinkedList<>();
+		
+		while(stringScanner.hasNext()){
+			currentCharInString = stringScanner.next();
+			//To take into account special keys
+			if(currentCharInString.matches("\\{")){
+				String charInsideSpecialKey = stringScanner.next();
+				StringBuilder specialKey = new StringBuilder("{");
+				while(!charInsideSpecialKey.matches("\\}")){
+					specialKey.append(charInsideSpecialKey);
+					charInsideSpecialKey = stringScanner.next();
+				}
+				specialKey.append("}");	
+				//Uppercase to match what's in the hash table
+				hotKeyIDList.add(keyTextToID.getUniqueID(specialKey.toString().toUpperCase()));
+			} else {
+				hotKeyIDList.add(keyTextToID.getUniqueID(currentCharInString));
+			}
+		}
 
+		
+		hotKeyIDs = new int[hotKeyIDList.size()];
+		isPressed = new boolean[hotKeyIDList.size()];
+		
+		for(int i = 0; i < hotKeyIDs.length; i++){
+			hotKeyIDs[i] = hotKeyIDList.get(i);
+		}
+		stringScanner.close();
+	}
+
+	
+	
+	void startListening() {
+		
 		try {
 			Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
 			logger.setLevel(Level.OFF);
-			GlobalScreen.registerNativeHook();
+			if(!GlobalScreen.isNativeHookRegistered()){
+				GlobalScreen.registerNativeHook();
+			} 
 		} catch (NativeHookException ex) {
 			System.err.println("There was a problem registering the native hook.");
 			System.err.println(ex.getMessage());
@@ -58,19 +93,20 @@ class HotKeySet implements NativeKeyListener {
 			System.exit(1);
 		}
 
+		GlobalScreen.removeNativeKeyListener(this);
 		GlobalScreen.addNativeKeyListener(this);
 	}
 
-	// ***************************VERY
-	// IMPORTANT**************************************************
+	// ***************************VERY IMPORTANT**************************
 	// The hash table created uses returned text from
 	// NativeKeyEvent.getKeyText(e.getKeyCode());
 	// This is what we have to use when getting the unique ID associated with
 	// the key entry.
-	// *******************************************************************************************
+	// *********************************************************************
 	@Override
 	public void nativeKeyPressed(NativeKeyEvent e) {
 		String keyText = NativeKeyEvent.getKeyText(e.getKeyCode());
+	
 		for (int i = 0; i < hotKeyIDs.length; i++) {
 			if (hotKeyIDs[i] == keyTextToID.getUniqueID(keyText)) {
 				isPressed[i] = true;
@@ -78,13 +114,16 @@ class HotKeySet implements NativeKeyListener {
 		}
 
 		if (isAllTrue(isPressed)) {
-			runMethod();
+			if(methodName != null){
+				runMethod();				
+			}
 		}
 	}
 
 	@Override
 	public void nativeKeyReleased(NativeKeyEvent e) {
 		String keyText = NativeKeyEvent.getKeyText(e.getKeyCode());
+		
 		for (int i = 0; i < hotKeyIDs.length; i++) {
 			if (hotKeyIDs[i] == keyTextToID.getUniqueID(keyText)) {
 				isPressed[i] = false;
@@ -121,5 +160,31 @@ class HotKeySet implements NativeKeyListener {
 				return false;
 		return true;
 	}
+	
+	String getHotKeys(){
+		return this.hotKeys;
+	}
+
+	String getMethodName() {
+		return methodName;
+	}
+
+	void setMethodName(String methodName) {
+		this.methodName = methodName;
+	}
+
+	Object getCallingObject() {
+		return callingObject;
+	}
+
+	void setCallingObject(Object callingObject) {
+		this.callingObject = callingObject;
+	}
+
+	void setHotKeys(String hotKeys) {
+		this.hotKeys = hotKeys;
+	}
+	
+	
 
 }
