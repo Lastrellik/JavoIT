@@ -18,9 +18,9 @@ public class JavoIT {
 	}
 
 	public void derp() {
-		javoit.MouseMove(960, 540, 5);
+		javoit.MouseClick("Left", 1000, 500, 10, 5);
 	}
-		 
+
 	/**
 	 * Pauses execution for the specified milliseconds.
 	 */
@@ -39,20 +39,52 @@ public class JavoIT {
 		hotKeySet.startListening();
 	}
 
-	public void MouseClick(String button, int x, int y) {
-		if (mouseClick == null)
-			mouseClick = new MouseClick();
-		mouseClick.click(button, x, y);
+	public void MouseClick() {
+
 	}
 
-	public void MouseClick(String button, int x, int y, int clicks) {
-		if (mouseClick == null)
-			mouseClick = new MouseClick();
-		mouseClick.click(button, x, y, clicks);
+	public void MouseClick(String button) {
+
 	}
-	
-	public void MouseMove(int x, int y){
-		if(mouseMove == null){
+
+	public void MouseClick(String button, int x, int y) {
+		if (mouseClick == null)
+			mouseClick = new MouseClick(button, x, y);
+		else {
+			mouseClick.setButton(button);
+			mouseClick.setX(x);
+			mouseClick.setY(y);
+		}
+		mouseClick.click();
+	}
+
+	public void MouseClick(String button, int x, int y, int speed) {
+		if (mouseClick == null)
+			mouseClick = new MouseClick(button, x, y, speed);
+		else {
+			mouseClick.setButton(button);
+			mouseClick.setX(x);
+			mouseClick.setY(y);
+			mouseClick.setSpeed(speed);
+		}
+		mouseClick.click();
+	}
+
+	public void MouseClick(String button, int x, int y, int speed, int clicks) {
+		if (mouseClick == null)
+			mouseClick = new MouseClick(button, x, y, speed, clicks);
+		else {
+			mouseClick.setButton(button);
+			mouseClick.setX(x);
+			mouseClick.setY(y);
+			mouseClick.setSpeed(speed);
+			mouseClick.setClicks(clicks);
+		}
+		mouseClick.click();
+	}
+
+	public void MouseMove(int x, int y) {
+		if (mouseMove == null) {
 			mouseMove = new MouseMove(x, y);
 			mouseMove.moveMouse();
 		} else {
@@ -60,13 +92,14 @@ public class JavoIT {
 			mouseMove.moveMouse();
 		}
 	}
-	
-	public void MouseMove(int x, int y, int speed){
-		if(mouseMove == null){
+
+	public void MouseMove(int x, int y, int speed) {
+		if (mouseMove == null) {
 			mouseMove = new MouseMove(x, y, speed);
 		} else {
 			mouseMove.setFinalMousePosition(new Point(x, y));
-			if(mouseMove.getSpeed() != speed) mouseMove.setSpeed(speed);
+			if (mouseMove.getSpeed() != speed)
+				mouseMove.setSpeed(speed);
 			mouseMove.moveMouse();
 		}
 	}

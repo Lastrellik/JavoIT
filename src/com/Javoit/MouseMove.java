@@ -5,7 +5,7 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Robot;
 
-public class MouseMove {
+class MouseMove {
 	public Point beginningMousePosition;
 	public Point finalMousePosition;
 	private int speed;
@@ -15,7 +15,7 @@ public class MouseMove {
 	public static void main(String[] args) {
 		MouseMove[] moves = new MouseMove[15];
 
-		moves[0] = new MouseMove(950, 600);
+		moves[0] = new MouseMove(950, 600, 0);
 		moves[1] = new MouseMove(1920, 0);
 		moves[2] = new MouseMove(950, 600);
 		moves[3] = new MouseMove(1920, 1080);
@@ -32,9 +32,9 @@ public class MouseMove {
 		moves[14] = new MouseMove(950, 600);
 
 		for (int i = 0; i < moves.length; i++) {
-			moves[i].moveMouse();
+			//moves[i].moveMouse();
 		}
-		
+		moves[0].moveMouse();
 	}
 
 	MouseMove(int x, int y) {
