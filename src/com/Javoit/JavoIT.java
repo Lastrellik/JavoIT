@@ -7,9 +7,11 @@ public class JavoIT {
 	private HotKeySet hotKeySet;
 	private MouseMove mouseMove;
 	private static JavoIT javoit = new JavoIT();
+	private MouseClickDrag mouseClickDrag;
 
 	public static void main(String[] args) {
 		JavoIT javoit = new JavoIT();
+		//javoit.MouseClickDrag("Left", 600, 10, 600, 600, 1);
 		javoit.HotKeySet("a", "derp", javoit);
 	}
 
@@ -18,7 +20,7 @@ public class JavoIT {
 	}
 
 	public void derp() {
-		javoit.MouseClick("Left", 1000, 500, 10, 5);
+		javoit.MouseClickDrag("Left", 600, 10, 700, 600, 1);
 	}
 
 	/**
@@ -104,4 +106,30 @@ public class JavoIT {
 		}
 	}
 
+	public void MouseClickDrag(String button, int x1, int y1, int x2, int y2) {
+		if (mouseClickDrag == null){
+			mouseClickDrag = new MouseClickDrag(button, x1, y1, x2, y2);
+		} else {
+			mouseClickDrag.setButton(button);
+			mouseClickDrag.setX1(x1);
+			mouseClickDrag.setY1(y1);
+			mouseClickDrag.setX2(x2);
+			mouseClickDrag.setY2(y2);
+		}
+		mouseClickDrag.clickDrag();
+	}
+
+	public void MouseClickDrag(String button, int x1, int y1, int x2, int y2, int speed) {
+		if(mouseClickDrag == null)
+			mouseClickDrag = new MouseClickDrag(button, x1, y1, x2, y2, speed);
+		else {
+			mouseClickDrag.setButton(button);
+			mouseClickDrag.setX1(x1);
+			mouseClickDrag.setY1(y1);
+			mouseClickDrag.setX2(x2);
+			mouseClickDrag.setY2(y2);
+			mouseClickDrag.setSpeed(speed);
+		}
+		mouseClickDrag.clickDrag();
+	}
 }
