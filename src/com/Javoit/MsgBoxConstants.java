@@ -103,4 +103,44 @@ public abstract class MsgBoxConstants {
 	 * 	on to the computer.
 	 */
 	public static final int MB_SERVICE_NOTIFICATON = 2097152;
+	/**
+	 * The ID of the OK Button
+	 */
+	public static final int IDOK = 1;
+	/**
+	 * The ID of the CANCEL Button
+	 */
+	public static final int IDCANCEL = 2;
+	/**
+	 * The ID of the ABORT Button
+	 */
+	public static final int IDABORT = 3;
+	/**
+	 * The ID of the RETRY Button
+	 */
+	public static final int IDRETRY = 4;
+	/**
+	 * The ID of the IDIGNORE Button
+	 */
+	public static final int IDIGNORE = 5;
+	/**
+	 * The ID of the YES Button
+	 */
+	public static final int IDYES = 6;
+	/**
+	 * The ID of the NO Button
+	 */
+	public static final int IDNO = 7;
+	/**
+	 * The ID of the TRYAGAIN Button
+	 */
+	public static final int IDTRYAGAIN = 10;
+	/**
+	 * The ID of the CONTINUE Button
+	 */
+	public static final int IDCONTINUE = 11;
+	/**
+	 * The ID of the HELP Button
+	 */
+	public static final int IDHELP = 12;
 }

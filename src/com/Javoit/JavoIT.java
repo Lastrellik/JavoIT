@@ -8,11 +8,12 @@ public class JavoIT {
 	private MouseMove mouseMove;
 	private static JavoIT javoit = new JavoIT();
 	private MouseClickDrag mouseClickDrag;
+	private MsgBox msgBox;
 
 	public static void main(String[] args) {
-		JavoIT javoit = new JavoIT();
-		//javoit.MouseClickDrag("Left", 600, 10, 600, 600, 1);
-		javoit.HotKeySet("a", "derp", javoit);
+		System.out.println(javoit.MsgBox(MsgBoxConstants.MB_CANCELTRYCONTINUE + MsgBoxConstants.MB_DEFBUTTON3, "Test Title", "This is some test text"));
+		System.out.println(javoit.MsgBox(MsgBoxConstants.MB_ICONINFORMATION, "Second", "Second text"));
+		System.out.println(javoit.MsgBox(MsgBoxConstants.MB_DEFBUTTON2 + MsgBoxConstants.MB_CANCELTRYCONTINUE, "Third", "Third text"));
 	}
 
 	public JavoIT() {
@@ -131,5 +132,24 @@ public class JavoIT {
 			mouseClickDrag.setSpeed(speed);
 		}
 		mouseClickDrag.clickDrag();
+	}
+	
+	public int MsgBox(int flag, String title, String text){
+		return MsgBox(flag, title, text, -1);
+	}
+	
+	public int MsgBox(int flag, String title, String text, int timeout){
+		if(msgBox == null){
+			msgBox = new MsgBox(flag, title, text, timeout);
+		} else {
+			msgBox.resetData();
+			msgBox.setFlag(flag);
+			msgBox.setTitle(title);
+			msgBox.setText(text);
+			msgBox.setTimeout(timeout);
+			msgBox.parseFlag();
+		}
+		msgBox.showMsgBox();
+		return msgBox.getButtonReturnValue();
 	}
 }
