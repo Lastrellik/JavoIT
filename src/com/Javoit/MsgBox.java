@@ -2,18 +2,16 @@ package com.Javoit;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.Dialog;
+import java.awt.Dialog.ModalityType;
 import java.awt.FlowLayout;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Window;
 import java.util.TreeMap;
 
-import javax.swing.FocusManager;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -27,7 +25,7 @@ class MsgBox {
 	private TreeMap<Integer, Object> map;
 	private Icon icon = null;
 	private int defaultButton = 0;
-	private int modal = 0;//TODO
+	private ModalityType modal = Dialog.ModalityType.MODELESS;
 	private boolean alwaysOnTop = false;
 	private int componentAlignment = SwingConstants.LEFT;
 	private int timeout;
@@ -37,29 +35,33 @@ class MsgBox {
 	private JavoIT javoit = new JavoIT();
 	
 	public static void main(String[] args){
-		MsgBox msgBox = new MsgBox(0, "asdf s dfas df a sdas dff as fda sfdfsdas dffsd a e" , "This is a long title thit lakdjsf sfdlkjsfd kjlsfdlkjsfdjk sfd"
-				+ "sdflkjsdoijsd flkjs dfoijsfd nlskdf sdffli sfdlkjsfd oifsjsdf a fsds dfa sdafds  fdasfa fads "
-				+ "as dfsd aasdf dfdfsadasdfasdfdsa sd fafa fds df fdasf adf ad f adfdfa df  fdafdafad "
-				+ "h fsoij slkjs ofi .");
+		MsgBox msgBox = new MsgBox(0, "Title" , "Knowing that millions of "
+				+ "people around the world would be watching in person and "
+				+ "on television and expecting great things from him — at "
+				+ "least one more gold medal for America, if not another "
+				+ "world record — during this, his fourth and surely his "
+				+ "last appearance in the World Olympics, and realizing "
+				+ "that his legs could no longer carry him down the runway "
+				+ "with the same blazing speed and confidence in making a "
+				+ "huge, eye-popping leap that they were capable of a few "
+				+ "years ago when he set world records in the 100-meter dash "
+				+ "and in the 400-meter relay and won a silver medal in the "
+				+ "long jump, the renowned sprinter and track-and-field "
+				+ "personality Carl Lewis, who had known pressure from fans "
+				+ "and media before but never, even as a professional runner, "
+				+ "this kind of pressure, made only a few appearances in races "
+				+ "during the few months before the Summer Olympics in Atlanta, "
+				+ "Georgia, partly because he was afraid of raising expectations "
+				+ "even higher and he did not want to be distracted by "
+				+ "interviews and adoring fans who would follow him into stores"
+				+ " and restaurants demanding autographs and photo-opportunities,"
+				+ " but mostly because he wanted to conserve his energies and "
+				+ "concentrate, like a martial arts expert, on the job at hand:"
+				+ " winning his favorite competition, the long jump, and "
+				+ "bringing home another Gold Medal for the United States, "
+				+ "the most fitting conclusion to his brilliant career in "
+				+ "track and field.");
 		msgBox.showMsgBox();
-		/*		
-		CANCEL_OPTION: 2
-		CLOSED_OPTION: -1
-		DEFAULT_OPTION: -1
-		OK_CANCEL_OPTION: 2
-		NO_OPTION: 1
-		OK_OPTION: 0
-		YES_NO_CANCEL_OPTION 1
-		YES_NO_OPTION 0
-		YES_OPTION 0
-
-		ERROR_MESSAGE: 0
-		INFORMATION_MESSAGE: 1
-		PLAIN_MESSAGE: -1
-		QUESTION_MESSAGE: 3
-		WARNING_MESSAGE: 2
-		*/
-
 	}
 	
 	MsgBox(int flag, String title, String text){
@@ -111,12 +113,12 @@ class MsgBox {
 		map.put(768, 3);
 		
 		//modal
-		map.put(4096, 1);
-		map.put(8192, 2);
+		map.put(4096, Dialog.ModalityType.APPLICATION_MODAL);
+		map.put(8192, Dialog.ModalityType.TOOLKIT_MODAL);
 		
 		//attributes
 		map.put(65536, true);
-		map.put(131072, 7); //TODO after creating JFrame
+		//map.put(131072, 7); 
 		map.put(262144, true);
 		map.put(524288, Component.RIGHT_ALIGNMENT);	
 	}
@@ -128,9 +130,6 @@ class MsgBox {
 		} else if (flag >= 262144){
 			alwaysOnTop = true;
 			parseFlag(flag - 262144);
-		} else if (flag >= 131072){
-			activeWindow = FocusManager.getCurrentManager().getActiveWindow();
-			parseFlag(flag - 131072);
 		} else if (flag >= 65536){
 			alwaysOnTop = true;
 			parseFlag(flag - 65536);
@@ -138,7 +137,7 @@ class MsgBox {
 			addHelp = true;
 			parseFlag(flag - 16384);
 		} else if (flag >= 4096){
-			modal = (int) map.get(map.floorKey(flag));
+			modal = (ModalityType) map.get(map.floorKey(flag));
 			parseFlag(flag - map.floorKey(flag));
 		} else if (flag >= 256){
 			defaultButton = (int) map.get(map.floorKey(flag));
@@ -164,7 +163,7 @@ class MsgBox {
 		}
 	}
 	
-	public class MsgBoxFrame extends JFrame {
+	public class MsgBoxFrame extends JDialog {
 
 		private static final long serialVersionUID = 4903069352269655465L;
 		private JPanel contentPane;
@@ -173,18 +172,17 @@ class MsgBox {
         private final String html2 = "px'>";
 		
 		public MsgBoxFrame() {
-			int width = 190;
+			int width = 250;
 			int height = 150;
 			
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			contentPane = new JPanel();
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 			contentPane.setLayout(new BorderLayout(0, 0));
 			setContentPane(contentPane);
 			setTitle(title);			
 			setAlwaysOnTop(alwaysOnTop);
-			
-			
+			setModalityType(modal);
 
 			JPanel buttonPanel = new JPanel();
 			buttonPanel.setLayout(new FlowLayout());
@@ -211,7 +209,7 @@ class MsgBox {
 			
 			if(icon != null) width += 100;
 			if(text.length() > 50) width += 200;
-			if(text.length() > 210) height += ((text.length() / 106) * 13);
+			if(text.length() > 210) height += ((text.length() / 106) * 20);
 			System.out.println(textLabel.getText().length());
 			for(int i = 0; i < title.toCharArray().length; i++) width += 5;
 			setBounds(0, 0, width, height);
