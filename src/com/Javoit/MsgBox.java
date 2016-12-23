@@ -2,11 +2,14 @@ package com.Javoit;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Window;
 import java.util.TreeMap;
 
+import javax.swing.FocusManager;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,34 +31,18 @@ class MsgBox {
 	private boolean alwaysOnTop = false;
 	private int componentAlignment = SwingConstants.LEFT;
 	private int timeout;
-	private GraphicsDevice activeScreen;
+	private Window activeWindow = null;
 	private MsgBoxFrame msgBoxFrame;
 	private boolean addHelp;
 	private JavoIT javoit = new JavoIT();
 	
 	public static void main(String[] args){
-		MsgBox msgBox = new MsgBox((MsgBoxConstants.MB_DEFBUTTON3 + MsgBoxConstants.MB_YESNOCANCEL + MsgBoxConstants.MB_ICONWARNING + MsgBoxConstants.MB_HELP), "Test Title", "The Quick Brown Fox Jumps all over "
-				+ "the lazy shitty stupid bullshit dog and I am just typing a lot of stuff "
-				+ "the lazy shitty stupid bullshit dog and I am just typing a lot of stuff "
-				+ "hit.", 10);
+		MsgBox msgBox = new MsgBox(0, "asdf s dfas df a sdas dff as fda sfdfsdas dffsd a e" , "This is a long title thit lakdjsf sfdlkjsfd kjlsfdlkjsfdjk sfd"
+				+ "sdflkjsdoijsd flkjs dfoijsfd nlskdf sdffli sfdlkjsfd oifsjsdf a fsds dfa sdafds  fdasfa fads "
+				+ "as dfsd aasdf dfdfsadasdfasdfdsa sd fafa fds df fdasf adf ad f adfdfa df  fdafdafad "
+				+ "h fsoij slkjs ofi .");
 		msgBox.showMsgBox();
-		
-		/*System.out.println("CANCEL_OPTION: " + JOptionPane.CANCEL_OPTION);
-		System.out.println("CLOSED_OPTION: " + JOptionPane.CLOSED_OPTION);
-		System.out.println("DEFAULT_OPTION: " + JOptionPane.DEFAULT_OPTION);
-		System.out.println("OK_CANCEL_OPTION: " + JOptionPane.OK_CANCEL_OPTION);
-		System.out.println("NO_OPTION: " + JOptionPane.NO_OPTION);
-		System.out.println("OK_OPTION: " + JOptionPane.OK_OPTION);
-		System.out.println("YES_NO_CANCEL_OPTION " + JOptionPane.YES_NO_CANCEL_OPTION);
-		System.out.println("YES_NO_OPTION " + JOptionPane.YES_NO_OPTION);
-		System.out.println("YES_OPTION" + JOptionPane.YES_OPTION);
-		System.out.println();
-		System.out.println("ERROR_MESSAGE: " + JOptionPane.ERROR_MESSAGE);
-		System.out.println("INFORMATION_MESSAGE: " + JOptionPane.INFORMATION_MESSAGE);
-		System.out.println("PLAIN_MESSAGE: " + JOptionPane.PLAIN_MESSAGE);
-		System.out.println("QUESTION_MESSAGE: " + JOptionPane.QUESTION_MESSAGE);
-		System.out.println("WARNING_MESSAGE: " + JOptionPane.WARNING_MESSAGE);
-		
+		/*		
 		CANCEL_OPTION: 2
 		CLOSED_OPTION: -1
 		DEFAULT_OPTION: -1
@@ -110,6 +97,7 @@ class MsgBox {
 		map.put(4, new JButton[] {yes, no, help});
 		map.put(5, new JButton[] {retry, cancel, help});
 		map.put(6, new JButton[] {cancel, tryAgain, continueButton, help});
+		
 		//icons
 		map.put(16, new ImageIcon(this.getClass().getResource("Icons/stop.png")));
 		map.put(32, new ImageIcon(this.getClass().getResource("Icons/question.png")));
@@ -126,7 +114,7 @@ class MsgBox {
 		map.put(4096, 1);
 		map.put(8192, 2);
 		
-		//attripbutes
+		//attributes
 		map.put(65536, true);
 		map.put(131072, 7); //TODO after creating JFrame
 		map.put(262144, true);
@@ -141,7 +129,8 @@ class MsgBox {
 			alwaysOnTop = true;
 			parseFlag(flag - 262144);
 		} else if (flag >= 131072){
-			//TODO after creating JFrame
+			activeWindow = FocusManager.getCurrentManager().getActiveWindow();
+			parseFlag(flag - 131072);
 		} else if (flag >= 65536){
 			alwaysOnTop = true;
 			parseFlag(flag - 65536);
@@ -177,7 +166,6 @@ class MsgBox {
 	
 	public class MsgBoxFrame extends JFrame {
 
-
 		private static final long serialVersionUID = 4903069352269655465L;
 		private JPanel contentPane;
 		
@@ -185,11 +173,8 @@ class MsgBox {
         private final String html2 = "px'>";
 		
 		public MsgBoxFrame() {
-			int width;
+			int width = 190;
 			int height = 150;
-
-			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			GraphicsDevice[] gd = ge.getScreenDevices();
 			
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			contentPane = new JPanel();
@@ -223,15 +208,14 @@ class MsgBox {
 			textLabel.setText(html1 + "100%" + html2 + text);
 			textLabel.setHorizontalAlignment(componentAlignment);
 			
-			width = (buttonPanel.getComponentCount() - 1) * 100;
 			
 			if(icon != null) width += 100;
 			if(text.length() > 50) width += 200;
-			if(text.length() > 210) height += ((text.length() / 80) * 21);
-			
+			if(text.length() > 210) height += ((text.length() / 106) * 13);
+			System.out.println(textLabel.getText().length());
 			for(int i = 0; i < title.toCharArray().length; i++) width += 5;
 			setBounds(0, 0, width, height);
-			setLocationRelativeTo(null);
+			setLocationRelativeTo(activeWindow);
 		}
 
 	}
