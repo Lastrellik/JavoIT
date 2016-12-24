@@ -9,11 +9,10 @@ public class JavoIT {
 	private static JavoIT javoit = new JavoIT();
 	private MouseClickDrag mouseClickDrag;
 	private MsgBox msgBox;
+	private PixelGetColor pixelGetColor;
 
 	public static void main(String[] args) {
-		System.out.println(javoit.MsgBox(MsgBoxConstants.MB_CANCELTRYCONTINUE + MsgBoxConstants.MB_DEFBUTTON3, "Test Title", "This is some test text"));
-		System.out.println(javoit.MsgBox(MsgBoxConstants.MB_ICONINFORMATION, "Second", "Second text"));
-		System.out.println(javoit.MsgBox(MsgBoxConstants.MB_DEFBUTTON2 + MsgBoxConstants.MB_CANCELTRYCONTINUE, "Third", "Third text"));
+		javoit.HotKeySet("a", "derp", javoit);
 	}
 
 	public JavoIT() {
@@ -21,7 +20,7 @@ public class JavoIT {
 	}
 
 	public void derp() {
-		javoit.MouseClickDrag("Left", 600, 10, 700, 600, 1);
+		System.out.println(javoit.MsgBox(0, "The Title", javoit.PixelGetColor(200, 300)));
 	}
 
 	/**
@@ -138,6 +137,14 @@ public class JavoIT {
 		return MsgBox(flag, title, text, -1);
 	}
 	
+	public <N extends Number> int MsgBox(int flag, String title, N text){
+		return MsgBox(flag, title, text, -1);
+	}
+	
+	public <N extends Number> int MsgBox(int flag, String title, N text, int timeout){
+		return MsgBox(flag, title, text.toString(), timeout);
+	}
+	
 	public int MsgBox(int flag, String title, String text, int timeout){
 		if(msgBox == null){
 			msgBox = new MsgBox(flag, title, text, timeout);
@@ -151,5 +158,15 @@ public class JavoIT {
 		}
 		msgBox.showMsgBox();
 		return msgBox.getButtonReturnValue();
+	}
+	
+	public Integer PixelGetColor(int x, int y){
+		if(pixelGetColor == null){
+			pixelGetColor = new PixelGetColor(x, y);
+		} else {
+			pixelGetColor.setX(x);
+			pixelGetColor.setY(y);
+		}
+		return pixelGetColor.getHashCode();
 	}
 }

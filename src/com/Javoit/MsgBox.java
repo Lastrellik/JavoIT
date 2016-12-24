@@ -69,7 +69,14 @@ class MsgBox {
 
 	MsgBox(int flag, String title, String text) {
 		this(flag, title, text, -1);
-
+	}
+	
+	<N extends Number> MsgBox(int flag, String title, N text){
+		this(flag, title, text.toString(), -1);
+	}
+	
+	<N extends Number> MsgBox(int flag, String title, N text, int timeout){
+		this(flag, title, text.toString(), timeout);
 	}
 
 	MsgBox(int flag, String title, String text, int timeout) {
@@ -164,9 +171,7 @@ class MsgBox {
 	int showMsgBox() {
 		msgBoxFrame = new MsgBoxFrame();
 		msgBoxFrame.getRootPane().setDefaultButton(buttons[defaultButton]);
-		System.out.println(buttons[defaultButton]);
 		buttons[defaultButton].requestFocus();
-		System.out.println("Default: " + defaultButton);
 		msgBoxFrame.setVisible(true);
 		if (timeout > 0) {
 			javoit.sleep(timeout * 1000);
