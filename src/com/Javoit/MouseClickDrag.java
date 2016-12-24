@@ -12,15 +12,18 @@ class MouseClickDrag {
 	private Robot robot;
 	
 	public static void main(String[] args){
-		MouseClickDrag mcd = new MouseClickDrag("Left", 600, 10, 600, 500, 20);
+		MouseClickDrag mcd = new MouseClickDrag("Left", 600, 10, 600, 500);
 		mcd.clickDrag();
 	}
 
 	MouseClickDrag(String button, int x1, int y1, int x2, int y2) {
+		this(button, x1, y1, x2, y2, 10);
+	}
+
+	MouseClickDrag(String button,  int x1, int y1, int x2, int y2, int speed) {
 		try {
 			robot = new Robot();
 		} catch (AWTException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		this.button = button;
@@ -28,11 +31,6 @@ class MouseClickDrag {
 		this.y1 = y1;
 		this.x2 = x2;
 		this.y2 = y2;
-		this.speed = 10;
-	}
-
-	MouseClickDrag(String button,  int x1, int y1, int x2, int y2, int speed) {
-		this(button, x1, y1, x2, y2);
 		this.speed = speed;
 	}
 	

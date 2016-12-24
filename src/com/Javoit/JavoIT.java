@@ -107,16 +107,7 @@ public class JavoIT {
 	}
 
 	public void MouseClickDrag(String button, int x1, int y1, int x2, int y2) {
-		if (mouseClickDrag == null){
-			mouseClickDrag = new MouseClickDrag(button, x1, y1, x2, y2);
-		} else {
-			mouseClickDrag.setButton(button);
-			mouseClickDrag.setX1(x1);
-			mouseClickDrag.setY1(y1);
-			mouseClickDrag.setX2(x2);
-			mouseClickDrag.setY2(y2);
-		}
-		mouseClickDrag.clickDrag();
+		MouseClickDrag(button, x1, y1, x2, y2, 10);
 	}
 
 	public void MouseClickDrag(String button, int x1, int y1, int x2, int y2, int speed) {
@@ -160,7 +151,7 @@ public class JavoIT {
 		return msgBox.getButtonReturnValue();
 	}
 	
-	public Integer PixelGetColor(int x, int y){
+	public int PixelGetColor(int x, int y){
 		if(pixelGetColor == null){
 			pixelGetColor = new PixelGetColor(x, y);
 		} else {
