@@ -1,6 +1,6 @@
 package com.Javoit;
 
-public class Sleep {
+class Sleep {
 	long milliseconds;
 	
 	public Sleep(long milliseconds){

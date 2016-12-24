@@ -1,6 +1,5 @@
 package com.Javoit;
 
-import java.awt.Color;
 import java.awt.Point;
 
 public class JavoIT {
@@ -22,8 +21,7 @@ public class JavoIT {
 	}
 
 	public void derp() {
-		Color color = new Color(javoit.PixelGetColor(javoit.MouseGetPos(0), javoit.MouseGetPos(1)));
-		System.out.println(javoit.MsgBox(0, "The Title", color.getRed()));
+		System.out.println(javoit.MsgBox(0, "The Title", javoit.PixelGetColor(javoit.MouseGetPos(0), javoit.MouseGetPos(1))));
 	}
 
 	/**
