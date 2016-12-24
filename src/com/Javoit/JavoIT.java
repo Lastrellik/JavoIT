@@ -1,5 +1,6 @@
 package com.Javoit;
 
+import java.awt.Color;
 import java.awt.Point;
 
 public class JavoIT {
@@ -10,6 +11,7 @@ public class JavoIT {
 	private MouseClickDrag mouseClickDrag;
 	private MsgBox msgBox;
 	private PixelGetColor pixelGetColor;
+	private MouseGetPos mouseGetPos;
 
 	public static void main(String[] args) {
 		javoit.HotKeySet("a", "derp", javoit);
@@ -20,7 +22,8 @@ public class JavoIT {
 	}
 
 	public void derp() {
-		System.out.println(javoit.MsgBox(0, "The Title", javoit.PixelGetColor(200, 300)));
+		Color color = new Color(javoit.PixelGetColor(javoit.MouseGetPos(0), javoit.MouseGetPos(1)));
+		System.out.println(javoit.MsgBox(0, "The Title", color.getRed()));
 	}
 
 	/**
@@ -159,5 +162,15 @@ public class JavoIT {
 			pixelGetColor.setY(y);
 		}
 		return pixelGetColor.getHashCode();
+	}
+	
+	public int MouseGetPos(int dimension){
+		if(mouseGetPos == null){
+			mouseGetPos = new MouseGetPos(dimension);
+		} else {
+			mouseGetPos.setMousePoint();
+			mouseGetPos.setDimension(dimension);
+		}
+		return mouseGetPos.getPosition();
 	}
 }

@@ -4,7 +4,7 @@ import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Robot;
 
-public class PixelGetColor {
+class PixelGetColor {
 	int x, y;
 	private Robot robot;
 	private Color color;
