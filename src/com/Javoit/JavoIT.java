@@ -11,6 +11,7 @@ public class JavoIT {
 	private MsgBox msgBox;
 	private PixelGetColor pixelGetColor;
 	private MouseGetPos mouseGetPos;
+	private PixelChecksum pixelChecksum;
 
 	public static void main(String[] args) {
 		javoit.HotKeySet("a", "derp", javoit);
@@ -21,7 +22,8 @@ public class JavoIT {
 	}
 
 	public void derp() {
-		System.out.println(javoit.MsgBox(0, "The Title", javoit.PixelGetColor(javoit.MouseGetPos(0), javoit.MouseGetPos(1))));
+		long start = System.currentTimeMillis();
+		System.out.println(javoit.PixelChecksum(0, 0, 2560, 1440) + " " + (System.currentTimeMillis() - start));
 	}
 
 	/**
@@ -170,5 +172,17 @@ public class JavoIT {
 			mouseGetPos.setDimension(dimension);
 		}
 		return mouseGetPos.getPosition();
+	}
+	
+	public int PixelChecksum(int left, int top, int right, int bottom){
+		if(pixelChecksum == null){
+			pixelChecksum = new PixelChecksum(left, top, right, bottom);
+		} else {
+			pixelChecksum.setLeft(left);
+			pixelChecksum.setRight(right);
+			pixelChecksum.setBottom(bottom);
+			pixelChecksum.setTop(top);
+		}
+		return pixelChecksum.getChecksum();
 	}
 }
