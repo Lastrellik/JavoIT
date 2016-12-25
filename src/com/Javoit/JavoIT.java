@@ -6,18 +6,16 @@ public class JavoIT {
 	private MouseClick mouseClick;
 	private HotKeySet hotKeySet;
 	private MouseMove mouseMove;
-	private static JavoIT javoit;// = new JavoIT();
+	private static JavoIT javoit = new JavoIT();
 	private MouseClickDrag mouseClickDrag;
 	private MsgBox msgBox;
 	private PixelGetColor pixelGetColor;
 	private MouseGetPos mouseGetPos;
 	private PixelChecksum pixelChecksum;
+	private Run run;
 
 	public static void main(String[] args) {
-		long time = System.currentTimeMillis();
-		javoit = new JavoIT();
 		javoit.HotKeySet("a", "derp", javoit);
-		System.out.println("Time: " + (System.currentTimeMillis() - time));
 	}
 
 	public JavoIT() {
@@ -26,7 +24,7 @@ public class JavoIT {
 
 	public void derp() {
 		long start = System.currentTimeMillis();
-		System.out.println(javoit.PixelChecksum(0, 0, 2560, 1440) + " " + (System.currentTimeMillis() - start));
+		System.out.println(javoit.PixelChecksum(0, 0, 10, 10) + " " + (System.currentTimeMillis() - start));
 	}
 
 	/**
@@ -166,5 +164,14 @@ public class JavoIT {
 			pixelChecksum.setTop(top);
 		}
 		return pixelChecksum.getChecksum();
+	}
+	
+	public void Run(String filePath){
+		if(run == null){
+			run = new Run(filePath);
+		} else {
+			run.setFileToRun(filePath);
+		}
+		run.executeProgram();
 	}
 }
