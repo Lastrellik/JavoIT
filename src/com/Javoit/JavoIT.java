@@ -6,7 +6,7 @@ public class JavoIT {
 	private MouseClick mouseClick;
 	private HotKeySet hotKeySet;
 	private MouseMove mouseMove;
-	private static JavoIT javoit = new JavoIT();
+	private static JavoIT javoit;// = new JavoIT();
 	private MouseClickDrag mouseClickDrag;
 	private MsgBox msgBox;
 	private PixelGetColor pixelGetColor;
@@ -14,7 +14,10 @@ public class JavoIT {
 	private PixelChecksum pixelChecksum;
 
 	public static void main(String[] args) {
+		long time = System.currentTimeMillis();
+		javoit = new JavoIT();
 		javoit.HotKeySet("a", "derp", javoit);
+		System.out.println("Time: " + (System.currentTimeMillis() - time));
 	}
 
 	public JavoIT() {
@@ -45,34 +48,19 @@ public class JavoIT {
 	}
 
 	public void MouseClick() {
-
+		MouseClick("left", javoit.MouseGetPos(0), javoit.MouseGetPos(1), 10, 1);
 	}
 
 	public void MouseClick(String button) {
-
+		MouseClick(button, javoit.MouseGetPos(0), javoit.MouseGetPos(1), 10, 1);
 	}
 
 	public void MouseClick(String button, int x, int y) {
-		if (mouseClick == null)
-			mouseClick = new MouseClick(button, x, y);
-		else {
-			mouseClick.setButton(button);
-			mouseClick.setX(x);
-			mouseClick.setY(y);
-		}
-		mouseClick.click();
+		MouseClick(button, x, y, 10, 1);
 	}
 
 	public void MouseClick(String button, int x, int y, int speed) {
-		if (mouseClick == null)
-			mouseClick = new MouseClick(button, x, y, speed);
-		else {
-			mouseClick.setButton(button);
-			mouseClick.setX(x);
-			mouseClick.setY(y);
-			mouseClick.setSpeed(speed);
-		}
-		mouseClick.click();
+		MouseClick(button, x, y, speed, 1);
 	}
 
 	public void MouseClick(String button, int x, int y, int speed, int clicks) {
@@ -89,13 +77,7 @@ public class JavoIT {
 	}
 
 	public void MouseMove(int x, int y) {
-		if (mouseMove == null) {
-			mouseMove = new MouseMove(x, y);
-			mouseMove.moveMouse();
-		} else {
-			mouseMove.setFinalMousePosition(new Point(x, y));
-			mouseMove.moveMouse();
-		}
+		MouseMove(x, y, 10);
 	}
 
 	public void MouseMove(int x, int y, int speed) {
