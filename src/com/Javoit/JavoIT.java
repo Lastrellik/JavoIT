@@ -13,9 +13,12 @@ public class JavoIT {
 	private MouseGetPos mouseGetPos;
 	private PixelChecksum pixelChecksum;
 	private Run run;
+	private RunWait runWait;
 
 	public static void main(String[] args) {
-		javoit.HotKeySet("a", "derp", javoit);
+		//javoit.HotKeySet("a", "derp", javoit);
+		javoit.RunWait("C:\\Share\\Desktop\\Mouse Cursor Position Tooltip.exe");
+		System.out.println("Done");
 	}
 
 	public JavoIT() {
@@ -173,5 +176,14 @@ public class JavoIT {
 			run.setFileToRun(filePath);
 		}
 		run.executeProgram();
+	}
+	
+	public void RunWait(String program){
+		if(runWait == null){
+			runWait = new RunWait(program);
+		} else {
+			runWait.setProgram(program);
+		}
+		runWait.runProgram();
 	}
 }
